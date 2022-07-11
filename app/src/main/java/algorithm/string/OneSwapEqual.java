@@ -1,20 +1,17 @@
 package algorithm.string;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OneSwapEqual {
     public boolean areAlmostEqual(String s1, String s2) {
-        Map<Character, Integer> map = new HashMap<>();
-
-        for (char c : s1.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) l.add(i);
+			if (l.size() > 2) return false; // added this line to short circuit the loop
         }
-
-        for (char c : s2.toCharArray()) {
-            if (!map.containsKey(c) || map.get(c) == 0) return false;
-            map.put(c, map.get(c) - 1); 
-        }
-        return true;
+        return l.size() == 0 || (l.size() == 2
+                                 && s1.charAt(l.get(0)) == s2.charAt(l.get(1))
+                                 && s1.charAt(l.get(1)) == s2.charAt(l.get(0)));
     }
 }
